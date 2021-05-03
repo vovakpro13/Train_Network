@@ -1,6 +1,7 @@
-
+import s from './preloader.module.css';
+import loader from '../../../assets/svg/load.svg'
 const Preloader =() =>{
-    return <img src={'https://miro.medium.com/max/1600/1*CsJ05WEGfunYMLGfsT2sXA.gif'} alt={'preloader'}/>
-}
+    return <div className={s.preloader}><img src={loader} alt={'preloader'}/></div>
+};
 
-export default Preloader
+export default Preloader;

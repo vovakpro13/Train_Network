@@ -7,11 +7,17 @@ import {
     setUsers,
     updateRelationshipInput
 } from "../../Redux/UsersReducer";
+import {setTitle,setActivePage} from "../../Redux/PageStateReducer";
 import React from "react";
 import axios from "axios";
 import Preloader from "../common/Preloader/Preloader.jsx";
 
-class UsersContainer extends React.Component {
+class UsersAPIContainer extends React.Component {
+    componentWillMount() {
+        this.props.setTitle('Users');
+        this.props.setActivePage(1);
+    }
+
     componentDidMount() {
         this.props.setIsFetching(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
@@ -58,10 +64,11 @@ const mapStateToProps = (state) => {
         totalUsers: state.usersData.totalUsers,
         currentPage: state.usersData.currentPage,
         isFetching: state.usersData.isFetching
+
     }
 }
 
 
 export default connect(mapStateToProps,
-    {updateRelationshipInput,setNewRelationship,setUsers, setCurrentPage,setIsFetching})(UsersContainer);
+    {setTitle,setActivePage, updateRelationshipInput,setNewRelationship,setUsers, setCurrentPage,setIsFetching})(UsersAPIContainer);
 

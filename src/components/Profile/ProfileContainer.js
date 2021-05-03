@@ -3,8 +3,14 @@ import Profile from "./Profile";
 import {connect} from "react-redux";
 import {setIsFetching, setProfilaData} from "../../Redux/ProfileReducer";
 import axios from "axios";
+import {setTitle,setActivePage} from "../../Redux/PageStateReducer";
 
 class ProfileContainer extends React.Component {
+    componentWillMount() {
+        this.props.setTitle('Profile');
+        this.props.setActivePage(2);
+    }
+
     componentDidMount() {
         this.props.setIsFetching(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/profile/8`)
@@ -15,6 +21,7 @@ class ProfileContainer extends React.Component {
     }
 
     render() {
+
         return <Profile profile={this.props.profile}/>
     }
 }
@@ -25,4 +32,4 @@ const mapStateToProps = (state) => {
     }
 }
 export default connect(mapStateToProps,
-    {setProfilaData, setIsFetching})(ProfileContainer);
+    {setProfilaData, setIsFetching, setTitle,setActivePage})(ProfileContainer);

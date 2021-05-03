@@ -1,5 +1,5 @@
-import User from "../User/User.jsx";
-import usersStyle from "./users.module.css"
+import User from "./User/User.jsx";
+import s from "./users.module.css"
 
 const Users = (props) =>{
     const {totalUsers, pageSize, currentPage} = props;
@@ -11,15 +11,14 @@ const Users = (props) =>{
 
     }
     return (
-            <div>
-                <h2>Users</h2>
-                <div className={usersStyle.row}>
-                    <div className={usersStyle.pages}>
+            <div className={s.wrapper}>
+                <div className={s.row}>
+                    <div className={s.pages}>
                     {
-                        pages.map(p => <button onClick={() => props.changePage(p)} className={currentPage === p && usersStyle.selected}>{p}</button>)
+                        pages.map(p => <button onClick={() => props.changePage(p)} className={currentPage === p && s.selected}>{p}</button>)
                     }
                     </div>
-                    <div>
+                    <div className={s.usersList}>
                         {
                             props.users
                                 .map(user => (

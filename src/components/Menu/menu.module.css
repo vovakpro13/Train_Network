@@ -1,0 +1,42 @@
+.menu{
+    padding: 10px 20px;
+    background: #2d2828;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menu a{
+    color: white;
+    text-decoration: none;
+    
+}
+.logo{
+    display: flex;
+    align-items: center;
+}
+
+.logo img{
+    width: 50px;
+}
+
+.logo h4{
+    color: rgba(241, 241, 241, 0.83);
+    margin-left: 20px;
+}
+
+.links{
+    margin-right: 30px;
+}
+.links a{
+    font-size: 17px;
+    margin-right: 18px;
+    transition-duration: 0.4s;
+}
+.links a:hover{
+    opacity: 0.5;
+    transition-duration: 0.3s;
+}
+.active{
+    border-bottom: 2px solid white;
+}

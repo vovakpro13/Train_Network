@@ -4,17 +4,15 @@ import Preloader from "../common/Preloader/Preloader";
 
 
 const Profile = (props) =>{
-    if (!props.profile){
-        return <Preloader/>
-    }
-    console.log(props)
-    return (<div className={s.profile}>
+    return !props.profile ?  <Preloader/> :
+
+     <div className={s.profile}>
         <div className={s.info}>
             <div className={s.avatar}>
                 <img src={props.profile.photos.small} alt="avatar"/>
             </div>
         </div>
-    </div>)
+    </div>
 }
 
 export default Profile

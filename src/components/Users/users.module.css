@@ -1,3 +1,7 @@
+.wrapper{
+
+}
+
 .selected{
     background: green;
     color: white;
@@ -10,4 +14,7 @@
 .pages{
     padding-right: 30px;
     flex-basis: 50%;
+}
+.usersList{
+
 }

@@ -1,0 +1,10 @@
+.preloader{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.preloader img{
+    margin: 20px auto;
+    width: 130px;
+}

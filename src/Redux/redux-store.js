@@ -1,9 +1,14 @@
 import {combineReducers,createStore} from "redux";
 import UsersReducer from "./UsersReducer";
-import {ProfileReducer} from "./ProfileReducer";
+import ProfileReducer from "./ProfileReducer";
+import PageStateReducer from "./PageStateReducer";
 
 const reducers = combineReducers({
     usersData: UsersReducer,
-    profileData: ProfileReducer
+    profileData: ProfileReducer,
+    pageState: PageStateReducer
 })
-export default createStore(reducers);
+const store = createStore(reducers);
+window.store = store
+
+export default store;
