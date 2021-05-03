@@ -3,9 +3,7 @@ import Users from "./Users.jsx";
 import {
     setCurrentPage,
     setIsFetching,
-    setNewRelationship,
-    setUsers,
-    updateRelationshipInput
+    setUsers, follow, unfollow
 } from "../../Redux/UsersReducer";
 import {setTitle,setActivePage} from "../../Redux/PageStateReducer";
 import React from "react";
@@ -47,8 +45,8 @@ class UsersAPIContainer extends React.Component {
                 currentPage={this.props.currentPage}
                 changePage={this.changePage}
                 users={this.props.users}
-                updateRelationshipInput={this.props.updateRelationshipInput}
-                setNewRelationship={this.props.setNewRelationship}
+                follow={this.props.follow}
+                unfollow={this.props.unfollow}
             />
             }
 
@@ -70,5 +68,5 @@ const mapStateToProps = (state) => {
 
 
 export default connect(mapStateToProps,
-    {setTitle,setActivePage, updateRelationshipInput,setNewRelationship,setUsers, setCurrentPage,setIsFetching})(UsersAPIContainer);
+    {setTitle,setActivePage,setUsers, setCurrentPage,setIsFetching, follow, unfollow})(UsersAPIContainer);
 
