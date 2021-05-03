@@ -1,0 +1,13 @@
+.selected{
+    background: green;
+    color: white;
+}
+
+.row{
+    display: flex;
+    justify-content: space-around;
+}
+.pages{
+    padding-right: 30px;
+    flex-basis: 50%;
+}

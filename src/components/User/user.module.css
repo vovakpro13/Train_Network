@@ -1,0 +1,10 @@
+.userDiv{
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 50px;
+    border: 1px solid orange;
+    display: flex;
+    justify-content: space-around;
+    width: 500px;
+    align-items: center;
+}
