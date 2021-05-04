@@ -1,6 +1,6 @@
 import s from './menu.module.css';
 import {Link} from 'react-router-dom';
-import logo from '../../assets/images/logo.svg'
+import logo from '../../assets/svg/logo.svg'
 import LinkItem from "./LinkItem";
 
 const Menu = (props) => {
