@@ -19,7 +19,7 @@ function User({user, follow, unfollow}) {
                     </div>
 
                 </div>
-                <div className={s.fatherHideRestText}><p className={s.hideRestText}>{user.status || <span className={s.nostatus}>No status:(</span>}</p></div>
+                <div className={s.fatherHideRestText}><p className={`${s.hideRestText} ${s.status}`}>{user.status || <span className={s.nostatus}>No status:(</span>}</p></div>
                 <div>
                     {user.followed
                         ? <button className={`${s.unfollow} ${s.btn}`} onClick={() => unfollow(user.id)}>

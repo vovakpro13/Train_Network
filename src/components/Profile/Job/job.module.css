@@ -1,0 +1,11 @@
+.looking{
+    margin-top: 10px;
+    font-weight: 300;
+}
+.looking:before{
+    content: 'Lookig job description:  ';
+    font-weight: 500;
+}
+.notLooking{
+    opacity: 0.4;
+}

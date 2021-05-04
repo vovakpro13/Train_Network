@@ -1,0 +1,24 @@
+.about{
+    margin-top: 20px;
+    width: 250px;
+    overflow: hidden;
+    font-size: 14px;
+}
+.about h5{
+    font-size: 16px;
+    display: contents;
+}
+.aboutTitle{
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 3px;
+}
+
+.aboutTitle img{
+    width: 20px;
+    margin-right: 6px;
+}
+
+.noAbout{
+    opacity: 0.4;
+}

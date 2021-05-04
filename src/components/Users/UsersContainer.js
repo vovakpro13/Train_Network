@@ -3,7 +3,7 @@ import Users from "./Users.jsx";
 import {
     setCurrentPage,
     setIsFetching,
-    setUsers, follow, unfollow
+    setUsers, follow, unfollow,setPagesSlide,changeInputValue
 } from "../../Redux/UsersReducer";
 import {setTitle,setActivePage} from "../../Redux/PageStateReducer";
 import React from "react";
@@ -39,14 +39,18 @@ class UsersAPIContainer extends React.Component {
 
     render() {
         return <>
-            {this.props.isFetching ? <Preloader/> : <Users
+            {<Users
+                isFetching={this.props.isFetching}
                 totalUsers={this.props.totalUsers}
                 pageSize={this.props.pageSize}
                 currentPage={this.props.currentPage}
                 changePage={this.changePage}
+                setPagesSlide={this.props.setPagesSlide}
+                pages={this.props.pages}
                 users={this.props.users}
                 follow={this.props.follow}
                 unfollow={this.props.unfollow}
+                changeInputValue={this.props.changeInputValue}
             />
             }
 
@@ -61,12 +65,12 @@ const mapStateToProps = (state) => {
         pageSize: state.usersData.pageSize,
         totalUsers: state.usersData.totalUsers,
         currentPage: state.usersData.currentPage,
-        isFetching: state.usersData.isFetching
-
+        isFetching: state.usersData.isFetching,
+        pages: state.usersData.pages,
     }
 }
 
 
 export default connect(mapStateToProps,
-    {setTitle,setActivePage,setUsers, setCurrentPage,setIsFetching, follow, unfollow})(UsersAPIContainer);
+    {setTitle,setActivePage,setUsers, setCurrentPage,setIsFetching, follow, unfollow, setPagesSlide, changeInputValue})(UsersAPIContainer);
 

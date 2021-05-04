@@ -16,7 +16,6 @@ const PageStateReducer = (state = initialPage, action) =>{
         case SET_TITLE:
             return {...state, title: action.newTitle};
         case SET_ACTIVE_PAGE:
-            localStorage.setItem('currentPage', action.activePage);
             return {...state, activePage: action.activePage};
         default:
             return state;

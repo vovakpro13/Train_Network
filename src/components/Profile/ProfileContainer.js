@@ -1,8 +1,8 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {setIsFetching, setProfilaData} from "../../Redux/ProfileReducer";
 import axios from "axios";
+import {setIsFetching, setProfilaData} from "../../Redux/ProfileReducer";
 import {setTitle,setActivePage} from "../../Redux/PageStateReducer";
 
 class ProfileContainer extends React.Component {
@@ -13,7 +13,7 @@ class ProfileContainer extends React.Component {
 
     componentDidMount() {
         this.props.setIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/8`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/2`)
             .then(profile => {
                 this.props.setProfilaData(profile.data);
                 this.props.setIsFetching(false);
@@ -21,7 +21,6 @@ class ProfileContainer extends React.Component {
     }
 
     render() {
-
         return <Profile profile={this.props.profile}/>
     }
 }

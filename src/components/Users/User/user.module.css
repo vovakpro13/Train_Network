@@ -1,5 +1,5 @@
 .userDiv{
-    height: 150px;
+    height: 140px;
     width: 300px;
     flex-basis: 27%;
     margin: 20px auto;
@@ -22,7 +22,7 @@
 
 }
 .avatar img{
-    width: 90px;
+    width: 80px;
     border-radius: 50px;
 }
 .btn{
@@ -61,7 +61,7 @@
 .infoBlock{
     margin-top: -10px;
     max-width: 180px;
-    height: 94%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -97,7 +97,9 @@
     width: 12px;
     margin-right: 6px;
 }
-
+.status{
+    opacity: 0.8;
+}
 .nostatus{
     font-size: 12px;
     opacity: 0.5;

@@ -1,0 +1,43 @@
+.avatar{
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+}
+.ava{
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+}
+.findingDiv{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background:white;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -1px -1px 14px 5px rgba(0, 0, 0, 0.06);
+    z-index: 4;
+}
+.finding{
+    width:36px;
+    animation: job 3s ease-in-out infinite;
+
+}
+
+
+@keyframes job {
+    0%{
+        transform: rotate(-7deg);
+    }
+    50%{
+        transform: rotate(7deg);
+    }
+    100%{
+        transform: rotate(-7deg);
+    }
+}
