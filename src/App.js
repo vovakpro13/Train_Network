@@ -11,7 +11,11 @@ import Home from "./components/Home/Home";
 function App(props) {
     return (
         <div className={s.App}>
-            <Menu projectName={props.PROJECT_NAME} links={props.links} activePage={props.activePage} />
+            <Menu
+                projectName={props.PROJECT_NAME}
+                links={props.links}
+                activePage={props.activePage} />
+
             <div className={s.appBody}>
                 <h2 className={s.title}>{props.title}</h2>
                 <Route exact path={'/'}>
@@ -20,7 +24,10 @@ function App(props) {
                 <Route path={'/users'}>
                     <UsersContainer/>
                 </Route>
-                <Route path={'/profile'}>
+                <Route exact path={'/profile/:userId'}>
+                    <ProfileContainer/>
+                </Route>
+                <Route exact path={'/profile'}>
                     <ProfileContainer/>
                 </Route>
             </div>

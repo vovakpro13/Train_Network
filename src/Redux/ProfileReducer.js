@@ -9,7 +9,7 @@ const initProfile = {
  const ProfileReducer = (state = initProfile, action) =>{
     switch (action.type){
         case SET_PROFILE_DATA:
-            return {...state, profile: action.profile};
+            return {...state, profile: {...action.profile}};
         case  SET_IS_FETCHING:
             return {...state, isFetching: action.isFetch};
         default:

@@ -1,11 +1,12 @@
 const SET_TITLE ='SET_TITLE';
 const SET_ACTIVE_PAGE = 'SET_ACTIVE_PAGE';
+const UPDATE_PAGE_STATE = 'UPDATE_PAGE_STATE';
 
 const initialPage = {
     PROJECT_NAME: 'Train Network',
     links: [
         {id: 1, path: '/users', title: 'Users'},
-        {id: 2, path: '/profile', title: 'Profile'}
+        {id: 2, path: '/profile', title: 'My Profile'}
     ],
     title: '',
     activePage: null
@@ -17,6 +18,9 @@ const PageStateReducer = (state = initialPage, action) =>{
             return {...state, title: action.newTitle};
         case SET_ACTIVE_PAGE:
             return {...state, activePage: action.activePage};
+        case UPDATE_PAGE_STATE:
+            alert('up')
+            return {...state};
         default:
             return state;
     }
@@ -24,5 +28,6 @@ const PageStateReducer = (state = initialPage, action) =>{
 
 export const setTitle = (newTitle) => ({type: SET_TITLE, newTitle});
 export const setActivePage = (activePage) => ({type: SET_ACTIVE_PAGE, activePage});
+export const updatePageState = () => ({type: UPDATE_PAGE_STATE });
 
 export default PageStateReducer;

@@ -7,6 +7,7 @@ import unfollowImg from '../../../assets/svg/minus.svg';
 function User({user, follow, unfollow}) {
 
     return (
+
         <div className={s.userDiv}>
             <div className={s.avatar}>
                 <div><img src={user.photos.small || avatar} alt="avatar"/></div>
@@ -15,7 +16,9 @@ function User({user, follow, unfollow}) {
             <div className={s.infoBlock}>
                 <div>
                     <div className={`${s.fatherHideRestText} ${s.nameBlock}`}>
-                        <h4 className={s.hideRestText}>{user.name}</h4>
+                        <a href={`profile/${user.id}`}>
+                            <h4 className={s.hideRestText}>{user.name}</h4>
+                        </a>
                     </div>
 
                 </div>
@@ -28,7 +31,6 @@ function User({user, follow, unfollow}) {
                             <img className={s.svgBtn} src={followImg} alt="follow"/> Follow</button>}
                 </div>
             </div>
-            <div></div>
         </div>
     );
 }
