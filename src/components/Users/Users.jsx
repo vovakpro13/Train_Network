@@ -4,6 +4,7 @@ import Preloader from "../common/Preloader/Preloader";
 import left from '../../assets/svg/left-arrow.svg';
 import right from '../../assets/svg/right-arrow.svg';
 import React from "react";
+import {setIsFetching} from "../../Redux/UsersReducer";
 
 const Users = (props) => {
     const {
@@ -36,7 +37,7 @@ const Users = (props) => {
     return (
         <div className={s.wrapper}>
             <div className={s.usersList}>
-                {!isFetching ? props.users.map(user => <User key={user.id} user={user} follow={props.follow}
+                {!isFetching ? props.users.map(user => <User key={user.id} setIsFetching={props.setIsFetching} user={user} follow={props.follow}
                                                              unfollow={props.unfollow}/>) : <Preloader/>}
             </div>
             <div className={s.pagesDiv}>

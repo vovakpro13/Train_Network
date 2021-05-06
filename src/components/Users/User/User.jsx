@@ -3,8 +3,29 @@ import s from "./user.module.css";
 import avatar from '../../../assets/svg/defaultAvatar.svg';
 import followImg from '../../../assets/svg/add.svg';
 import unfollowImg from '../../../assets/svg/minus.svg';
+import {followPost, unfollowDelete} from "../../../services/api";
+import {setIsFetching} from "../../../Redux/UsersReducer";
+import Preloader from "../../common/Preloader/Preloader";
 
-function User({user, follow, unfollow}) {
+function User({user, follow, unfollow, setIsFetching}) {
+
+    const followUser = (id) =>{
+        setIsFetching(true);
+        followPost(id).then(answer => {
+            follow(id);
+            setIsFetching(false);
+        });
+    };
+
+    const unfollowUser = (id) =>{
+        setIsFetching(true);
+        unfollowDelete(id).then(answer => {
+            console.log(answer);
+            unfollow(id);
+            setIsFetching(false);
+        });
+
+    };
 
     return (
 
@@ -25,10 +46,14 @@ function User({user, follow, unfollow}) {
                 <div className={s.fatherHideRestText}><p className={`${s.hideRestText} ${s.status}`}>{user.status || <span className={s.nostatus}>No status:(</span>}</p></div>
                 <div>
                     {user.followed
-                        ? <button className={`${s.unfollow} ${s.btn}`} onClick={() => unfollow(user.id)}>
-                            <img className={s.svgBtn} src={unfollowImg} alt="unfollow"/> Unfollow</button>
-                        : <button className={`${s.follow} ${s.btn}`} onClick={() => follow(user.id)}>
-                            <img className={s.svgBtn} src={followImg} alt="follow"/> Follow</button>}
+                        ? <button className={`${s.unfollow} ${s.btn}`} onClick={() => unfollowUser(user.id)}>
+                                <img className={s.svgBtn} src={unfollowImg} alt="unfollow"/>  Unfollow
+                        </button>
+
+                        : <button className={`${s.follow} ${s.btn}`} onClick={() => followUser(user.id)}>
+                               <img className={s.svgBtn} src={followImg} alt="follow"/> Follow
+                        </button>
+                    }
                 </div>
             </div>
         </div>

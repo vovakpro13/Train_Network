@@ -5,21 +5,19 @@ const UPDATE_PAGE_STATE = 'UPDATE_PAGE_STATE';
 const initialPage = {
     PROJECT_NAME: 'Train Network',
     links: [
-        {id: 1, path: '/users', title: 'Users'},
-        {id: 2, path: '/profile', title: 'My Profile'}
+        {id: 1, path: '/users', title: 'Users'}
     ],
     title: '',
     activePage: null
 };
 
-const PageStateReducer = (state = initialPage, action) =>{
+const PageStateReducer = (state = initialPage, action) => {
     switch (action.type){
         case SET_TITLE:
             return {...state, title: action.newTitle};
         case SET_ACTIVE_PAGE:
             return {...state, activePage: action.activePage};
         case UPDATE_PAGE_STATE:
-            alert('up')
             return {...state};
         default:
             return state;

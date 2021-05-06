@@ -2,7 +2,7 @@ import s from './menu.module.css';
 import {Link} from 'react-router-dom';
 import logo from '../../assets/svg/logo.svg'
 import LinkItem from "./LinkItem";
-
+import LoginAreaContainer from "./LoginArea/LoginAreaContainer";
 const Menu = (props) => {
     return (
         <div className={s.menu}>
@@ -10,6 +10,9 @@ const Menu = (props) => {
                 <img src={logo} alt="network logo"/>
                 <h4><Link to={'/'}>{props.projectName}</Link></h4>
             </div>
+
+            <div><LoginAreaContainer/></div>
+
             <div className={s.links}>
                 {
                     props.links.map(link => <LinkItem
