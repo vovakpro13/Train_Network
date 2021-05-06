@@ -4,7 +4,7 @@ import Preloader from "../common/Preloader/Preloader";
 import left from '../../assets/svg/left-arrow.svg';
 import right from '../../assets/svg/right-arrow.svg';
 import React from "react";
-import {setIsFetching} from "../../Redux/UsersReducer";
+
 
 const Users = (props) => {
     const {
@@ -19,10 +19,10 @@ const Users = (props) => {
     const start = pages.currentSlide * pages.countPages + 1;
     const end = start + pages.countPages;
 
-    const pagesArray = [];
+    const pagesButtonsArray = [];
     for (let i = start; i <= end; i++) {
         if (i <= pagesCount && i >= 1) {
-            pagesArray.push(i)
+            pagesButtonsArray.push(i)
         }
     }
     const onPressEnterSetPage = (e) => {
@@ -34,37 +34,57 @@ const Users = (props) => {
 
     };
 
+    const backSlide = () => {
+        setPagesSlide(pages.currentSlide - 1);
+        changeInputValue(pages.currentSlide);
+    }
+
+    const nextSlide = () => {
+        setPagesSlide(pages.currentSlide + 1);
+        changeInputValue(pages.currentSlide + 2);
+    }
+
     return (
         <div className={s.wrapper}>
             <div className={s.usersList}>
-                {!isFetching ? props.users.map(user => <User key={user.id} setIsFetching={props.setIsFetching} user={user} follow={props.follow}
-                                                             unfollow={props.unfollow}/>) : <Preloader/>}
+                {
+                    !isFetching
+                        ? props.users.map(user =>
+                            <User key={user.id}
+                                  user={user}
+                                  unfollowUser={props.unfollowUser}
+                                  followUser={props.followUser}/>)
+                        : <Preloader/>
+                }
             </div>
+
             <div className={s.pagesDiv}>
                 <div className={s.pages}>
-                    {start > 1 && <button
-                        onClick={() => {
-                            setPagesSlide(pages.currentSlide - 1);
-                            changeInputValue(pages.currentSlide)
-                        }}
-                        className={`${s.pageButton} ${s.controlBtn}`}>
-                        <img src={left} alt="left"/>
-                    </button>
-                    }
                     {
-
-                        pagesArray.map(p => <button key={p} onClick={() => props.changePage(p)}
-                                                    className={`${currentPage === p ? s.selected : s.simplePageBtn} ${s.pageButton}`}>{p}</button>)
+                        start > 1 &&
+                        <button onClick={() => backSlide()} className={`${s.pageButton} ${s.controlBtn}`}>
+                            <img src={left} alt="left"/>
+                        </button>
                     }
-                    {end < pagesCount && <button
-                        onClick={() => {
-                            setPagesSlide(pages.currentSlide + 1);
-                            changeInputValue(pages.currentSlide + 2)
-                        }}
-                        className={`${s.pageButton} ${s.controlBtn}`}>
-                        <img src={right} alt="right"/>
-                    </button>}
+
+                    {
+                        pagesButtonsArray.map(p =>
+                            <button key={p}
+                                    onClick={() => props.changePage(p)}
+                                    className={`${currentPage === p ? s.selected : s.simplePageBtn} ${s.pageButton}`}>
+                                {p}
+                            </button>
+                        )
+                    }
+
+                    {
+                        end < pagesCount &&
+                        <button onClick={() => nextSlide()} className={`${s.pageButton} ${s.controlBtn}`}>
+                            <img src={right} alt="right"/>
+                        </button>
+                    }
                 </div>
+
                 <div className={s.pagesLog}>
                     <input
                         ref={slide}

@@ -3,30 +3,8 @@ import s from "./user.module.css";
 import avatar from '../../../assets/svg/defaultAvatar.svg';
 import followImg from '../../../assets/svg/add.svg';
 import unfollowImg from '../../../assets/svg/minus.svg';
-import {followPost, unfollowDelete} from "../../../services/api";
-import {setIsFetching} from "../../../Redux/UsersReducer";
-import Preloader from "../../common/Preloader/Preloader";
 
-function User({user, follow, unfollow, setIsFetching}) {
-
-    const followUser = (id) =>{
-        setIsFetching(true);
-        followPost(id).then(answer => {
-            follow(id);
-            setIsFetching(false);
-        });
-    };
-
-    const unfollowUser = (id) =>{
-        setIsFetching(true);
-        unfollowDelete(id).then(answer => {
-            console.log(answer);
-            unfollow(id);
-            setIsFetching(false);
-        });
-
-    };
-
+function User({user, followUser, unfollowUser}) {
     return (
 
         <div className={s.userDiv}>

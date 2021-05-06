@@ -1,14 +1,17 @@
 import {connect} from "react-redux";
 import Users from "./Users.jsx";
 import {
+    changeInputValue,
+    follow,
     setCurrentPage,
     setIsFetching,
-    setUsers, follow, unfollow,setPagesSlide,changeInputValue
+    setPagesSlide,
+    setUsers,
+    unfollow
 } from "../../Redux/UsersReducer";
-import {setTitle,setActivePage} from "../../Redux/PageStateReducer";
+import {setActivePage, setTitle} from "../../Redux/PageStateReducer";
 import React from "react";
-import {getUsers} from "../../services/api";
-import Preloader from "../common/Preloader/Preloader.jsx";
+import {followPost, getUsers, unfollowDelete} from "../../services/api";
 
 class UsersAPIContainer extends React.Component {
     componentWillMount() {
@@ -17,11 +20,11 @@ class UsersAPIContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.props.setIsFetching(true)
+        this.props.setIsFetching(true);
         getUsers(this.props.currentPage, this.props.pageSize).then(users => {
-                this.props.setUsers(users.data.items, users.data.totalCount);
-                this.props.setIsFetching(false);
-            });
+            this.props.setUsers(users.items, users.totalCount);
+            this.props.setIsFetching(false);
+        });
 
     }
 
@@ -29,28 +32,47 @@ class UsersAPIContainer extends React.Component {
         this.props.setCurrentPage(p);
         this.props.setIsFetching(true)
         getUsers(p, this.props.pageSize).then(users => {
-                this.props.setUsers(users.data.items, users.data.totalCount);
-                this.props.setIsFetching(false);
-            });
+            this.props.setUsers(users.items, users.totalCount);
+            this.props.setIsFetching(false);
+        });
     }
+
+    followUser = (id) => {
+        this.props.setIsFetching(true);
+        followPost(id).then(answer => {
+            this.props.follow(id);
+            this.props.setIsFetching(false);
+        });
+    }
+
+    unfollowUser = (id) => {
+        this.props.setIsFetching(true);
+        unfollowDelete(id).then(answer => {
+            console.log(answer);
+            this.props.unfollow(id);
+            this.props.setIsFetching(false);
+        });
+
+    };
 
     render() {
         console.log(this.props)
         return <>
-            {<Users
-                isFetching={this.props.isFetching}
-                totalUsers={this.props.totalUsers}
-                pageSize={this.props.pageSize}
-                currentPage={this.props.currentPage}
-                changePage={this.changePage}
-                setPagesSlide={this.props.setPagesSlide}
-                setIsFetching={this.props.setIsFetching}
-                pages={this.props.pages}
-                users={this.props.users}
-                follow={this.props.follow}
-                unfollow={this.props.unfollow}
-                changeInputValue={this.props.changeInputValue}
-            />
+            {
+                <Users
+                    isFetching={this.props.isFetching}
+                    totalUsers={this.props.totalUsers}
+                    pageSize={this.props.pageSize}
+                    currentPage={this.props.currentPage}
+                    changePage={this.changePage}
+                    setPagesSlide={this.props.setPagesSlide}
+                    setIsFetching={this.props.setIsFetching}
+                    pages={this.props.pages}
+                    followUser={this.followUser}
+                    unfollowUser={this.unfollowUser}
+                    users={this.props.users}
+                    changeInputValue={this.props.changeInputValue}
+                />
             }
         </>
     }
@@ -69,5 +91,15 @@ const mapStateToProps = (state) => {
 
 
 export default connect(mapStateToProps,
-    {setTitle,setActivePage,setUsers, setCurrentPage,setIsFetching, follow, unfollow, setPagesSlide, changeInputValue})(UsersAPIContainer);
+    {
+        setTitle,
+        setActivePage,
+        setUsers,
+        setCurrentPage,
+        setIsFetching,
+        follow,
+        unfollow,
+        setPagesSlide,
+        changeInputValue
+    })(UsersAPIContainer);
 

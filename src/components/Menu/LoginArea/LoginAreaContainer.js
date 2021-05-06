@@ -8,7 +8,7 @@ import NoLogin from "./NoLogin";
 class LoginAreaContainer extends React.Component{
     componentDidMount() {
         this.props.setFetching(true);
-        auth().then(({data:{data: {id:userId, login, email}, resultCode}}) => {
+        auth().then(({data: {id:userId, login, email}, resultCode}) => {
             if (!resultCode){
                 this.props.setAuth(userId, login, email);
                 debugger

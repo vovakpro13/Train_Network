@@ -1,10 +1,9 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import axios from "axios";
 import {withRouter} from 'react-router-dom';
 import {setIsFetching, setProfilaData} from "../../Redux/ProfileReducer";
-import {setTitle,setActivePage, updatePageState} from "../../Redux/PageStateReducer";
+import {setActivePage, setTitle, updatePageState} from "../../Redux/PageStateReducer";
 import {getProfile} from "../../services/api";
 
 class ProfileContainer extends React.Component {
@@ -14,15 +13,15 @@ class ProfileContainer extends React.Component {
 
         this.props.setTitle(`Profile ${this.props.profile && this.props.profile.userId}`)
 
-        if (!userId ){ //this.props.isLogin){
-                userId = 2; //this.props.authUserId;
-                this.props.setTitle('My profile');
+        if (!userId) { //this.props.isLogin){
+            userId = 2; //this.props.authUserId;
+            this.props.setTitle('My profile');
         }
-debugger
+
         getProfile(userId).then(profile => {
-                this.props.setProfilaData(profile.data);
-                this.props.setIsFetching(false);
-            })
+            this.props.setProfilaData(profile);
+            this.props.setIsFetching(false);
+        })
     }
 
     render() {
@@ -41,4 +40,4 @@ const mapStateToProps = (state) => {
 const ContainerProfileComponentWithRouter = withRouter(ProfileContainer);
 
 export default connect(mapStateToProps,
-    {setProfilaData, setIsFetching, setTitle,setActivePage, updatePageState})(ContainerProfileComponentWithRouter);
+    {setProfilaData, setIsFetching, setTitle, setActivePage, updatePageState})(ContainerProfileComponentWithRouter);
