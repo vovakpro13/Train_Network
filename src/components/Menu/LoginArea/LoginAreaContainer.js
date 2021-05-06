@@ -11,8 +11,7 @@ class LoginAreaContainer extends React.Component{
         auth().then(({data: {id:userId, login, email}, resultCode}) => {
             if (!resultCode){
                 this.props.setAuth(userId, login, email);
-                debugger
-                getProfile(userId).then(({data: {fullName, photos: {small:avatar}}}) =>{
+                getProfile(userId).then(({ photos: {small:avatar}}) =>{
                     this.avatar = avatar;
                     this.props.setFetching(false);
                 });
