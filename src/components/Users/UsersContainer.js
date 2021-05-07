@@ -7,11 +7,11 @@ import {
     setIsFetching,
     setPagesSlide,
     setUsers,
-    unfollow
+    unfollow,setFollowProgress
 } from "../../Redux/UsersReducer";
 import {setActivePage, setTitle} from "../../Redux/PageStateReducer";
 import React from "react";
-import {followPost, getUsers, unfollowDelete} from "../../services/api";
+import API from "../../services/api";
 
 class UsersAPIContainer extends React.Component {
     componentWillMount() {
@@ -21,7 +21,7 @@ class UsersAPIContainer extends React.Component {
 
     componentDidMount() {
         this.props.setIsFetching(true);
-        getUsers(this.props.currentPage, this.props.pageSize).then(users => {
+        API.getUsers(this.props.currentPage, this.props.pageSize).then(users => {
             this.props.setUsers(users.items, users.totalCount);
             this.props.setIsFetching(false);
         });
@@ -31,26 +31,26 @@ class UsersAPIContainer extends React.Component {
     changePage = (p) => {
         this.props.setCurrentPage(p);
         this.props.setIsFetching(true)
-        getUsers(p, this.props.pageSize).then(users => {
+        API.getUsers(p, this.props.pageSize).then(users => {
             this.props.setUsers(users.items, users.totalCount);
             this.props.setIsFetching(false);
         });
     }
 
     followUser = (id) => {
-        this.props.setIsFetching(true);
-        followPost(id).then(answer => {
+        this.props.setFollowProgress(true, id);
+        API.followPost(id).then(answer => {
             this.props.follow(id);
-            this.props.setIsFetching(false);
+            this.props.setFollowProgress(false, id);
         });
     }
 
     unfollowUser = (id) => {
-        this.props.setIsFetching(true);
-        unfollowDelete(id).then(answer => {
+        this.props.setFollowProgress(true, id)
+        API.unfollowDelete(id).then(answer => {
             console.log(answer);
             this.props.unfollow(id);
-            this.props.setIsFetching(false);
+            this.props.setFollowProgress(false, id);
         });
 
     };
@@ -72,6 +72,7 @@ class UsersAPIContainer extends React.Component {
                     unfollowUser={this.unfollowUser}
                     users={this.props.users}
                     changeInputValue={this.props.changeInputValue}
+                    followingInProgress={this.props.followingInProgress}
                 />
             }
         </>
@@ -86,6 +87,7 @@ const mapStateToProps = (state) => {
         currentPage: state.usersData.currentPage,
         isFetching: state.usersData.isFetching,
         pages: state.usersData.pages,
+        followingInProgress: state.usersData.followingInProgress,
     }
 }
 
@@ -100,6 +102,7 @@ export default connect(mapStateToProps,
         follow,
         unfollow,
         setPagesSlide,
-        changeInputValue
+        changeInputValue,
+        setFollowProgress
     })(UsersAPIContainer);
 

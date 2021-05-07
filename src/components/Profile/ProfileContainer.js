@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {withRouter} from 'react-router-dom';
 import {setIsFetching, setProfilaData} from "../../Redux/ProfileReducer";
 import {setActivePage, setTitle, updatePageState} from "../../Redux/PageStateReducer";
-import {getProfile} from "../../services/api";
+import API from "../../services/api";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
@@ -18,7 +18,7 @@ class ProfileContainer extends React.Component {
             this.props.setTitle('My profile');
         }
 
-        getProfile(userId).then(profile => {
+        API.getProfile(userId).then(profile => {
             this.props.setProfilaData(profile);
             this.props.setIsFetching(false);
         })

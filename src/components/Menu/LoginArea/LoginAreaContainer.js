@@ -1,4 +1,4 @@
-import {auth, getProfile} from "../../../services/api";
+import API from "../../../services/api";
 import {connect} from "react-redux";
 import React from "react";
 import {setAuth, setAvatar,setFetching} from '../../../Redux/AuthReducer';
@@ -8,10 +8,10 @@ import NoLogin from "./NoLogin";
 class LoginAreaContainer extends React.Component{
     componentDidMount() {
         this.props.setFetching(true);
-        auth().then(({data: {id:userId, login, email}, resultCode}) => {
+        API.auth().then(({data: {id:userId, login, email}, resultCode}) => {
             if (!resultCode){
                 this.props.setAuth(userId, login, email);
-                getProfile(userId).then(({ photos: {small:avatar}}) =>{
+                API.getProfile(userId).then(({ photos: {small:avatar}}) =>{
                     this.avatar = avatar;
                     this.props.setFetching(false);
                 });

@@ -5,16 +5,10 @@ const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_PAGES_SLIDE = 'SET_PAGES_SLIDE';
 const CHANGE_INPUT_VALUE = 'CHANGE_INPUT_VALUE';
+const SET_FOLLOW_PROGRESS = 'SET_FOLLOW_PROGRESS';
 
 const initState = {
-    users: [
-        // {id: 45, userName: "Anna", age: 19, country: "Ukraine", relationship: 'good', input: ''},
-        // {id: 337, userName: "Viktor", age: 11, country: "Italian", relationship: 'not bad', input: ''},
-        // {id: 754, userName: "Petro", age: 34, country: "Spanish", relationship: 'bad', input: ''},
-        // {id: 6547, userName: "Katerina", age: 19, country: "Japan", relationship: 'better', input: ''},
-        // {id: 7676, userName: "Alex", age: 19, country: "Germany", relationship: 'cool', input: ''},
-        // {id: 789, userName: "Jone", age: 19, country: "USA", relationship: '50/50', input: ''},
-    ],
+    users: [],
     pageSize: 9,
     totalUsers: null,
     currentPage: 1,
@@ -23,7 +17,8 @@ const initState = {
         countPages: 12,
         inputSlide: 1
     },
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 }
 
 const UsersReducer = (state = initState, action) => {
@@ -47,7 +42,12 @@ const UsersReducer = (state = initState, action) => {
                     return user;
                 })};
         case  CHANGE_INPUT_VALUE:
-            return {...state, pages: {...state.pages, inputSlide: action.slide}}
+            return {...state, pages: {...state.pages, inputSlide: action.slide}};
+        case  SET_FOLLOW_PROGRESS:
+            return {
+                ...state,
+                followingInProgress:  action.isProgress ? [...state.followingInProgress, action.id] : [state.followingInProgress.filter(id => id !== action.id)]
+            };
         default:
             return state;
     }
@@ -61,5 +61,6 @@ export const setPagesSlide = (slide) => ({type: SET_PAGES_SLIDE, slide});
 export const follow = (userId) => ({type: FOLLOW, userId});
 export const unfollow = (userId) => ({type: UNFOLLOW, userId});
 export const changeInputValue = (slide) => ({type: CHANGE_INPUT_VALUE, slide});
+export const setFollowProgress = (isProgress, id) => ({type: SET_FOLLOW_PROGRESS, isProgress , id});
 
 export default UsersReducer;

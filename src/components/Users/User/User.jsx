@@ -4,7 +4,7 @@ import avatar from '../../../assets/svg/defaultAvatar.svg';
 import followImg from '../../../assets/svg/add.svg';
 import unfollowImg from '../../../assets/svg/minus.svg';
 
-function User({user, followUser, unfollowUser}) {
+function User({user, followUser, unfollowUser, followingInProgress}) {
     return (
 
         <div className={s.userDiv}>
@@ -23,12 +23,13 @@ function User({user, followUser, unfollowUser}) {
                 </div>
                 <div className={s.fatherHideRestText}><p className={`${s.hideRestText} ${s.status}`}>{user.status || <span className={s.nostatus}>No status:(</span>}</p></div>
                 <div>
-                    {user.followed
-                        ? <button className={`${s.unfollow} ${s.btn}`} onClick={() => unfollowUser(user.id)}>
+                    {
+                        user.followed
+                        ? <button disabled={followingInProgress.some(id => id === user.id)} className={`${s.unfollow} ${s.btn}`} onClick={() => unfollowUser(user.id)}>
                                 <img className={s.svgBtn} src={unfollowImg} alt="unfollow"/>  Unfollow
                         </button>
 
-                        : <button className={`${s.follow} ${s.btn}`} onClick={() => followUser(user.id)}>
+                        : <button disabled={followingInProgress.some(id => id === user.id)} className={`${s.follow} ${s.btn}`} onClick={() => followUser(user.id)}>
                                <img className={s.svgBtn} src={followImg} alt="follow"/> Follow
                         </button>
                     }

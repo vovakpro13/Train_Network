@@ -9,7 +9,8 @@ import React from "react";
 const Users = (props) => {
     const {
         totalUsers, pageSize, currentPage,
-        setPagesSlide, pages, isFetching, changeInputValue
+        setPagesSlide, pages, isFetching, changeInputValue,
+        followingInProgress, unfollowUser, followUser, users
     } = props;
 
     const slide = React.createRef();
@@ -49,11 +50,12 @@ const Users = (props) => {
             <div className={s.usersList}>
                 {
                     !isFetching
-                        ? props.users.map(user =>
+                        ? users.map(user =>
                             <User key={user.id}
                                   user={user}
-                                  unfollowUser={props.unfollowUser}
-                                  followUser={props.followUser}/>)
+                                  unfollowUser={unfollowUser}
+                                  followUser={followUser}
+                                  followingInProgress={followingInProgress}/>)
                         : <Preloader/>
                 }
             </div>
