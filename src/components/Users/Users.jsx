@@ -10,7 +10,7 @@ const Users = (props) => {
     const {
         totalUsers, pageSize, currentPage,
         setPagesSlide, pages, isFetching, changeInputValue,
-        followingInProgress, unfollowUser, followUser, users
+        followingInProgress, unfollow, follow, users
     } = props;
 
     const slide = React.createRef();
@@ -53,8 +53,8 @@ const Users = (props) => {
                         ? users.map(user =>
                             <User key={user.id}
                                   user={user}
-                                  unfollowUser={unfollowUser}
-                                  followUser={followUser}
+                                  unfollow={unfollow}
+                                  follow={follow}
                                   followingInProgress={followingInProgress}/>)
                         : <Preloader/>
                 }

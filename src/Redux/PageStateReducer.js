@@ -28,4 +28,10 @@ export const setTitle = (newTitle) => ({type: SET_TITLE, newTitle});
 export const setActivePage = (activePage) => ({type: SET_ACTIVE_PAGE, activePage});
 export const updatePageState = () => ({type: UPDATE_PAGE_STATE });
 
+export const pageSetting = (title, activePage) =>
+    (dispatch) =>{
+        dispatch(setTitle(title));
+        dispatch(setActivePage(activePage));
+    };
+
 export default PageStateReducer;

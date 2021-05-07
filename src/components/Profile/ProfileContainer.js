@@ -2,26 +2,18 @@ import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import {withRouter} from 'react-router-dom';
-import {setIsFetching, setProfilaData} from "../../Redux/ProfileReducer";
+import {getProfile, setIsFetching, setProfilaData} from "../../Redux/ProfileReducer";
 import {setActivePage, setTitle, updatePageState} from "../../Redux/PageStateReducer";
-import API from "../../services/api";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
-        this.props.setIsFetching(true);
         let userId = this.props.match.params.userId;
-
-        this.props.setTitle(`Profile ${this.props.profile && this.props.profile.userId}`)
-
-        if (!userId) { //this.props.isLogin){
-            userId = 2; //this.props.authUserId;
+        this.props.setTitle(<>Profile <small><sup>#{userId}</sup></small></>);
+        if (!userId) {
+            userId = 2;
             this.props.setTitle('My profile');
         }
-
-        API.getProfile(userId).then(profile => {
-            this.props.setProfilaData(profile);
-            this.props.setIsFetching(false);
-        })
+        this.props.getProfile(userId);
     }
 
     render() {
@@ -40,4 +32,11 @@ const mapStateToProps = (state) => {
 const ContainerProfileComponentWithRouter = withRouter(ProfileContainer);
 
 export default connect(mapStateToProps,
-    {setProfilaData, setIsFetching, setTitle, setActivePage, updatePageState})(ContainerProfileComponentWithRouter);
+    {
+        setProfilaData,
+        setIsFetching,
+        setTitle,
+        setActivePage,
+        updatePageState,
+        getProfile
+    })(ContainerProfileComponentWithRouter);

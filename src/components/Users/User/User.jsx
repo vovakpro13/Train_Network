@@ -4,7 +4,7 @@ import avatar from '../../../assets/svg/defaultAvatar.svg';
 import followImg from '../../../assets/svg/add.svg';
 import unfollowImg from '../../../assets/svg/minus.svg';
 
-function User({user, followUser, unfollowUser, followingInProgress}) {
+function User({user, follow, unfollow, followingInProgress}) {
     return (
 
         <div className={s.userDiv}>
@@ -25,11 +25,11 @@ function User({user, followUser, unfollowUser, followingInProgress}) {
                 <div>
                     {
                         user.followed
-                        ? <button disabled={followingInProgress.some(id => id === user.id)} className={`${s.unfollow} ${s.btn}`} onClick={() => unfollowUser(user.id)}>
+                        ? <button disabled={followingInProgress.some(id => id === user.id)} className={`${s.unfollow} ${s.btn}`} onClick={() => unfollow(user.id)}>
                                 <img className={s.svgBtn} src={unfollowImg} alt="unfollow"/>  Unfollow
                         </button>
 
-                        : <button disabled={followingInProgress.some(id => id === user.id)} className={`${s.follow} ${s.btn}`} onClick={() => followUser(user.id)}>
+                        : <button disabled={followingInProgress.some(id => id === user.id)} className={`${s.follow} ${s.btn}`} onClick={() => follow(user.id)}>
                                <img className={s.svgBtn} src={followImg} alt="follow"/> Follow
                         </button>
                     }

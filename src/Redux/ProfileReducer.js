@@ -1,3 +1,5 @@
+import API from "../services/api";
+
 const SET_PROFILE_DATA = 'SET_PROFILE_DATA';
 const SET_IS_FETCHING = 'SET_IS_FETCHING';
 
@@ -19,5 +21,14 @@ const initProfile = {
 
 export const setProfilaData = (profile) => ({type:SET_PROFILE_DATA, profile });
 export const setIsFetching = (isFetch) => ({type: SET_IS_FETCHING, isFetch});
+
+export const getProfile = (userId) =>
+    (dispatch) =>{
+        dispatch(setIsFetching(true));
+        API.getProfile(userId).then(profile => {
+            dispatch(setProfilaData(profile));
+            dispatch(setIsFetching(false));
+        })
+    };
 
 export default ProfileReducer;
