@@ -9,7 +9,7 @@ const initialPage = {
     login: null,
     email: null,
     avatar: null,
-    isLogin: true,
+    isLogin: false,
     isFetching: false
 };
 
@@ -32,15 +32,15 @@ export const setFetching = (val) => ({type: SET_FETCHING, val});
 
 export const auth = () =>
     (dispatch) => {
-    debugger
         dispatch(setFetching(true));
         API.auth().then(({data: {id: userId, login, email}, resultCode}) => {
             if (!resultCode) {
                 API.getProfile(userId).then(({photos: {small: avatar}}) => {
                     dispatch(setAuth(userId, login, email, avatar));
-                    dispatch(setFetching(false));
                 });
             }
+            debugger
+            dispatch(setFetching(false));
         });
     }
 

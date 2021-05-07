@@ -6,6 +6,8 @@ import {connect} from "react-redux";
 import {setTitle, setActivePage} from "./Redux/PageStateReducer";
 import Home from "./components/Home/Home";
 import MenuContainer from "./components/Menu/MenuContainer";
+import LoginContainer from "./components/Login/LoginContainer";
+import FriendsContainer from "./components/Friends/FriendsContainer";
 
 
 function App(props) {
@@ -15,18 +17,12 @@ function App(props) {
 
             <div className={s.appBody}>
                 <h2 className={s.title}>{props.title}</h2>
-                <Route exact path={'/'}>
-                    <Home setActivePage={props.setActivePage} setTitle={props.setTitle}/>
-                </Route>
-                <Route path={'/users'}>
-                    <UsersContainer/>
-                </Route>
-                <Route exact path={'/profile/:userId'}>
-                    <ProfileContainer/>
-                </Route>
-                <Route exact path={'/profile'}>
-                    <ProfileContainer/>
-                </Route>
+                <Route exact path={'/'} render={() => <Home setActivePage={props.setActivePage} setTitle={props.setTitle}/>}/>
+                <Route path={'/users'} render={() => <UsersContainer/>} />
+                <Route exact path={'/profile/:userId'} render={() => <ProfileContainer/>} />
+                <Route exact path={'/profile'} render={() => <ProfileContainer/>}/>
+                <Route exact path={'/friends'} render={() => <FriendsContainer/>}/>
+                <Route exact path={'/login'} render={() => <LoginContainer/>}/>
             </div>
 
 

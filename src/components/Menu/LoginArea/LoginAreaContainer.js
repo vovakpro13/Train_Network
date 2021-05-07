@@ -3,15 +3,24 @@ import React from "react";
 import {auth} from '../../../Redux/AuthReducer';
 import LoginArea from "./LoginArea";
 import NoLogin from "./NoLogin";
+import Preloader from "../../common/Preloader/Preloader";
 
-class LoginAreaContainer extends React.Component{
-    componentDidMount() { this.props.auth() }
+class LoginAreaContainer extends React.Component {
+    componentDidMount() {
+        this.props.auth()
+    }
+
     render() {
-        return this.props.isLogin ? <LoginArea {...this.props}/>: <NoLogin/>;
+        debugger
+        return this.props.isFetching
+            ? <Preloader type={'login'}/>
+            : this.props.isLogin
+                ? <LoginArea {...this.props}/>
+                : <NoLogin/>;
     }
 }
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = (state) => {
     return {
         isLogin: state.authData.isLogin,
         login: state.authData.login,

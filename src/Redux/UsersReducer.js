@@ -8,6 +8,7 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_PAGES_SLIDE = 'SET_PAGES_SLIDE';
 const CHANGE_INPUT_VALUE = 'CHANGE_INPUT_VALUE';
 const SET_FOLLOW_PROGRESS = 'SET_FOLLOW_PROGRESS';
+const TOGGLE_ONLY_FRIENDS = 'TOGGLE_ONLY_FRIENDS';
 
 const initState = {
     users: [],
@@ -16,9 +17,10 @@ const initState = {
     currentPage: 1,
     pages: {
         currentSlide: 0,
-        countPages: 12,
+        countButtonsInSlide: 10,
         inputSlide: 1
     },
+    onlyFriends: false,
     isFetching: false,
     followingInProgress: []
 }
@@ -33,6 +35,8 @@ const UsersReducer = (state = initState, action) => {
             return {...state, isFetching: action.isFetch};
         case  SET_PAGES_SLIDE:
             return {...state, pages: {...state.pages, currentSlide: action.slide}};
+        case  TOGGLE_ONLY_FRIENDS:
+            return {...state, onlyFriends: action.bool};
         case  FOLLOW:
             return {
                 ...state, users: state.users.map(user => {
@@ -68,20 +72,25 @@ export const followSuccess = (userId) => ({type: FOLLOW, userId});
 export const unfollowSuccess = (userId) => ({type: UNFOLLOW, userId});
 export const changeInputValue = (slide) => ({type: CHANGE_INPUT_VALUE, slide});
 export const setFollowProgress = (isProgress, id) => ({type: SET_FOLLOW_PROGRESS, isProgress, id});
+export const toggleOnlyFriends = (bool) => ({type: TOGGLE_ONLY_FRIENDS, bool});
 
-export const getUsers = (currentPage, pageSize) =>
+export const getUsers = (currentPage, pageSize, friends) =>
     (dispatch) => {
+        dispatch(toggleOnlyFriends(friends));
         dispatch(setIsFetching(true));
-        API.getUsers(currentPage, pageSize).then(users => {
+        API.getUsers(currentPage, pageSize, friends).then(users => {
+            debugger
             dispatch(setUsers(users.items, users.totalCount));
             dispatch(setIsFetching(false));
         });
     };
 
-export const changePage = (page, pageSize) =>
+
+export const changePage = (page, pageSize, friends) =>
     (dispatch) => {
         dispatch(setCurrentPage(page));
-        dispatch(getUsers(page, pageSize));
+        dispatch(getUsers(page, pageSize, friends));
+
     };
 
 export const follow = (id) =>
@@ -100,6 +109,13 @@ export const unfollow = (id) =>
             dispatch(unfollowSuccess(id));
             dispatch(setFollowProgress(false, id));
         });
+    };
+
+export const resetSlider = () =>
+    (dispatch) => {
+        dispatch(setPagesSlide(0));
+        dispatch(setCurrentPage(1));
+        dispatch(changeInputValue(1));
     };
 
 export default UsersReducer;

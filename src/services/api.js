@@ -7,8 +7,10 @@ const apiInstance = axios.create({
 });
 
 export default {
-    getUsers: (page = 1, count = 10) => {
-        return apiInstance.get('/users', {params: {page, count}}).then(response => response.data);
+    getUsers: (page = 1, count = 10, friend) => {
+        debugger
+        return apiInstance.get('/users', {params: {page, count, friend}}).then(response => {
+            console.log(response); return response.data});
     },
     getProfile:  (id) => {
         return  apiInstance.get(`/profile/${id}`).then(response => response.data);

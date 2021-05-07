@@ -5,7 +5,9 @@ const UPDATE_PAGE_STATE = 'UPDATE_PAGE_STATE';
 const initialPage = {
     PROJECT_NAME: 'Train Network',
     links: [
-        {id: 1, path: '/users', title: 'Users'}
+        {id: 1, path: '/users', title: 'Users'},
+        {id: 2, path: '/friends', title: 'Friends'},
+        {id: 3, path: '/messages', title: 'Messages'}
     ],
     title: '',
     activePage: null

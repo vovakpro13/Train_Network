@@ -1,76 +1,35 @@
 import {connect} from "react-redux";
 import Users from "./Users.jsx";
-import {
-    changeInputValue,
-    follow,
-    setCurrentPage,
-    setIsFetching,
-    setPagesSlide,
-    setUsers,
-    unfollow, setFollowProgress, getUsers, changePage,
-} from "../../Redux/UsersReducer";
+import {getUsers, resetSlider} from "../../Redux/UsersReducer";
 import {pageSetting} from "../../Redux/PageStateReducer";
 import React from "react";
+import UsersWrapper from "./UsersWrapper";
 
-class UsersAPIContainer extends React.Component {
+class UsersAPIContainer extends React.Component{
     componentDidMount() {
         this.props.pageSetting('Users', 1);
         this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
-    changePage = (p) => this.props.changePage(p, this.props.pageSize);
+    componentWillMount() {
+        this.props.resetSlider();
+    }
 
     render() {
-        return <>
-            {
-                <Users
-                    isFetching={this.props.isFetching}
-                    totalUsers={this.props.totalUsers}
-                    pageSize={this.props.pageSize}
-                    currentPage={this.props.currentPage}
-
-                    setPagesSlide={this.props.setPagesSlide}
-                    setIsFetching={this.props.setIsFetching}
-                    pages={this.props.pages}
-
-                    follow={this.props.follow}
-                    unfollow={this.props.unfollow}
-                    changePage={this.changePage}
-
-                    users={this.props.users}
-                    changeInputValue={this.props.changeInputValue}
-                    followingInProgress={this.props.followingInProgress}
-                />
-            }
-        </>
+        return <UsersWrapper/>
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        users: state.usersData.users,
         pageSize: state.usersData.pageSize,
-        totalUsers: state.usersData.totalUsers,
-        currentPage: state.usersData.currentPage,
-        isFetching: state.usersData.isFetching,
-        pages: state.usersData.pages,
-        followingInProgress: state.usersData.followingInProgress,
+        currentPage: state.usersData.currentPage
     }
 }
-
 
 export default connect(mapStateToProps,
     {
         pageSetting,
-        setUsers,
-        setCurrentPage,
-        setIsFetching,
-        follow,
-        unfollow,
-        setPagesSlide,
-        changeInputValue,
-        setFollowProgress,
-        getUsers,
-        changePage
+        getUsers,resetSlider
     })(UsersAPIContainer);
 
