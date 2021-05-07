@@ -4,6 +4,7 @@ import {getUsers, resetSlider} from "../../Redux/UsersReducer";
 import {pageSetting} from "../../Redux/PageStateReducer";
 import React from "react";
 import UsersWrapper from "./UsersWrapper";
+import {compose} from "redux";
 
 class UsersAPIContainer extends React.Component{
     componentDidMount() {
@@ -27,9 +28,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,
-    {
-        pageSetting,
-        getUsers,resetSlider
-    })(UsersAPIContainer);
+export default compose(
+    connect(mapStateToProps,{pageSetting,getUsers,resetSlider})
+)(UsersAPIContainer);
 

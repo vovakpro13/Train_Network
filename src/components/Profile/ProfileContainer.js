@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {withRouter} from 'react-router-dom';
 import {getProfile, setIsFetching, setProfilaData} from "../../Redux/ProfileReducer";
 import {pageSetting} from "../../Redux/PageStateReducer";
+import {compose} from "redux";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
@@ -30,12 +31,9 @@ const mapStateToProps = (state) => {
     }
 }
 
-const ContainerProfileComponentWithRouter = withRouter(ProfileContainer);
+export default compose(
+    connect(mapStateToProps,{ pageSetting,setProfilaData, setIsFetching,getProfile}),
+    withRouter
+)(ProfileContainer);
 
-export default connect(mapStateToProps,
-    {
-        pageSetting,
-        setProfilaData,
-        setIsFetching,
-        getProfile
-    })(ContainerProfileComponentWithRouter);
+

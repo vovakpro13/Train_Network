@@ -2,6 +2,7 @@ import React from "react";
 import Users from "./Users";
 import {connect} from "react-redux";
 import {changeInputValue, follow, setPagesSlide, unfollow, changePage} from "../../Redux/UsersReducer";
+import {compose} from "redux";
 
 const UsersWrapper = (props) => {
     const changePage = (p) => props.changePage(p, props.pageSize, props.onlyFriends);
@@ -39,11 +40,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,
-    {
-        follow,
-        unfollow,
-        setPagesSlide,
-        changeInputValue,
-        changePage
-    })(UsersWrapper);
+export default compose(
+    connect(mapStateToProps,{follow,unfollow,setPagesSlide,changeInputValue,changePage})
+)(UsersWrapper);
