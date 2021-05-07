@@ -1,4 +1,4 @@
-import API from "../services/api";
+import {authAPI, profileAPI} from "../services/api";
 
 const SET_USERS_DATA = 'SET_USERS_DATA';
 const SET_AVATAR = 'SET_AVATAR';
@@ -33,9 +33,9 @@ export const setFetching = (val) => ({type: SET_FETCHING, val});
 export const auth = () =>
     (dispatch) => {
         dispatch(setFetching(true));
-        API.auth().then(({data: {id: userId, login, email}, resultCode}) => {
+        authAPI.auth().then(({data: {id: userId, login, email}, resultCode}) => {
             if (!resultCode) {
-                API.getProfile(userId).then(({photos: {small: avatar}}) => {
+                profileAPI.getProfile(userId).then(({photos: {small: avatar}}) => {
                     dispatch(setAuth(userId, login, email, avatar));
                 });
             }

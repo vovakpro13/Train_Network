@@ -1,4 +1,4 @@
-import API from "../services/api";
+import {usersAPI} from "../services/api";
 
 const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
@@ -78,7 +78,7 @@ export const getUsers = (currentPage, pageSize, friends) =>
     (dispatch) => {
         dispatch(toggleOnlyFriends(friends));
         dispatch(setIsFetching(true));
-        API.getUsers(currentPage, pageSize, friends).then(users => {
+        usersAPI.getUsers(currentPage, pageSize, friends).then(users => {
             debugger
             dispatch(setUsers(users.items, users.totalCount));
             dispatch(setIsFetching(false));
@@ -96,7 +96,7 @@ export const changePage = (page, pageSize, friends) =>
 export const follow = (id) =>
     (dispatch) => {
         dispatch(setFollowProgress(true, id));
-        API.followPost(id).then(answer => {
+        usersAPI.followPost(id).then(answer => {
             dispatch(followSuccess(id));
             dispatch(setFollowProgress(false, id));
         });
@@ -105,7 +105,7 @@ export const follow = (id) =>
 export const unfollow = (id) =>
     (dispatch) => {
         dispatch(setFollowProgress(true, id));
-        API.unfollowDelete(id).then(answer => {
+        usersAPI.unfollowDelete(id).then(answer => {
             dispatch(unfollowSuccess(id));
             dispatch(setFollowProgress(false, id));
         });

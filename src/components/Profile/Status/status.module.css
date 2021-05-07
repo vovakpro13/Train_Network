@@ -1,0 +1,6 @@
+.statusRead{
+    cursor: pointer;
+}
+.statusRead:hover{
+    background: whitesmoke;
+}

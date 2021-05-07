@@ -28,8 +28,8 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-    connect(mapStateToProps, {getUsers, pageSetting,resetSlider}),
-    WithAuthRedirect
+    WithAuthRedirect,
+    connect(mapStateToProps, {getUsers, pageSetting,resetSlider})
 )(FriendsAPIContainer);
 
 
