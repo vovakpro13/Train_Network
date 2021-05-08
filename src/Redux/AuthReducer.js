@@ -29,19 +29,30 @@ export const setAvatar = (ava) => ({type: SET_AVATAR, ava});
 export const setFetching = (val) => ({type: SET_FETCHING, val});
 
 
-
 export const auth = () =>
     (dispatch) => {
         dispatch(setFetching(true));
-        authAPI.auth().then(({data: {id: userId, login, email}, resultCode}) => {
-            if (!resultCode) {
-                profileAPI.getProfile(userId).then(({photos: {small: avatar}}) => {
-                    dispatch(setAuth(userId, login, email, avatar));
-                });
-            }
-            debugger
-            dispatch(setFetching(false));
-        });
+        authAPI.auth()
+            .then(({data: {id: userId, login, email}, resultCode}) => {
+                if (!resultCode) {
+                    profileAPI.getProfile(userId)
+                        .then(({photos: {small: avatar}}) => {
+                            dispatch(setAuth(userId, login, email, avatar));
+                        });
+                }
+                debugger
+                dispatch(setFetching(false));
+            });
     }
-
+export const logIn = ({email, password, rememberMe, captcha}) =>
+    (dispatch) => {
+        dispatch(setFetching(true));
+        authAPI.logIn(email, password, rememberMe, captcha)
+            .then(response => {
+                if (!response.resultCode){
+                    dispatch(auth());
+                }else {alert('no')}
+                dispatch(setFetching(false));
+            })
+    };
 export default AuthReducer;

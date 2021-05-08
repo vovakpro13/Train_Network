@@ -4,12 +4,14 @@ import ProfileReducer from "./ProfileReducer";
 import PageStateReducer from "./PageStateReducer";
 import AuthReducer from "./AuthReducer";
 import thunkMiddleWare from "redux-thunk";
+import {reducer as formReducer} from "redux-form";
 
 const reducers = combineReducers({
     usersData: UsersReducer,
     profileData: ProfileReducer,
     pageState: PageStateReducer,
-    authData: AuthReducer
+    authData: AuthReducer,
+    form: formReducer
 })
 const store = createStore(reducers, applyMiddleware(thunkMiddleWare));
 window.store = store;
