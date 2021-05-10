@@ -1,0 +1,51 @@
+.inputDiv{
+    position: relative;
+    margin-bottom: 10px;
+}
+.errorInput{
+    border: 1px solid red;
+}
+.error{
+    color: red;
+    font-size: 13px;
+    display: flex;
+    padding: 7px 0;
+}
+.error  img{
+    width: 20px;
+    margin-right: 5px;
+}
+.inputCommon{
+    padding: 8px 10px;
+    border-radius: 5px;
+    outline: none;
+    /*border: 1px solid grey;*/
+}
+
+.inputSimple{
+    border: 1px solid grey;
+}
+
+.inputSuccess{
+    border: 1px solid #69d423;
+}
+
+.shadow{
+    box-shadow: 1px 1px 10px 0 #dfdfdf;
+    border:1px solid rgba(255, 255, 255, 0)
+}
+
+.checkboxDiv{
+    display: flex;
+    align-items: center;
+}
+.checkboxDiv > .checkbox{
+    margin-right: 5px;
+}
+.rememberText{
+    font-size: 14px;
+    color: rgba(102, 102, 102, 0.69);
+}
+.checked{
+    color: #000000;
+}

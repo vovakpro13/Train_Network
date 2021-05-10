@@ -1,9 +1,8 @@
-import User from "./User/User.jsx";
 import s from "./users.module.css"
 import Preloader from "../common/Preloader/Preloader";
-import left from '../../assets/svg/left-arrow.svg';
-import right from '../../assets/svg/right-arrow.svg';
+
 import React from "react";
+import User from "./User/User";
 import Navigation from "./Navigation";
 
 const Users = (props) => {
@@ -18,17 +17,18 @@ const Users = (props) => {
             <div className={s.usersList}>
                 {
                     !isFetching
-                        ? users.map(user =>
-                            <User key={user.id}
-                                  user={user}
-                                  unfollow={unfollow}
-                                  follow={follow}
-                                  followingInProgress={followingInProgress}/>)
+                        ? <>
+                            {users.map(user =>
+                                <User key={user.id} user={user} unfollow={unfollow} follow={follow}
+                                      followingInProgress={followingInProgress}/>)
+                            }
+                            < Navigation {...props}/>
+                        </>
                         : <Preloader/>
                 }
+
             </div>
 
-           <Navigation {...props}/>
 
         </div>
     );

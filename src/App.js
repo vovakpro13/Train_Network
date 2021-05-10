@@ -4,7 +4,7 @@ import {Route} from "react-router-dom";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import {connect} from "react-redux";
 import {setTitle, setActivePage} from "./Redux/PageStateReducer";
-import Home from "./components/Home/Home";
+import HomeContainer from "./components/Home/HomeContainer";
 import MenuContainer from "./components/Menu/MenuContainer";
 import LoginContainer from "./components/Login/LoginContainer";
 import FriendsContainer from "./components/Friends/FriendsContainer";
@@ -17,7 +17,7 @@ function App(props) {
 
             <div className={s.appBody}>
                 <h2 className={s.title}>{props.title}</h2>
-                <Route exact path={'/'} render={() => <Home setActivePage={props.setActivePage} setTitle={props.setTitle}/>}/>
+                <Route exact path={'/'} render={() => <HomeContainer/>}/>
                 <Route path={'/users'} render={() => <UsersContainer/>} />
                 <Route exact path={'/profile/:userId'} render={() => <ProfileContainer/>} />
                 <Route exact path={'/profile'} render={() => <ProfileContainer/>}/>

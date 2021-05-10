@@ -1,4 +1,5 @@
 import {authAPI, profileAPI} from "../services/api";
+import {SubmissionError} from "redux-form";
 
 const SET_USERS_DATA = 'SET_USERS_DATA';
 const SET_AVATAR = 'SET_AVATAR';
@@ -38,12 +39,13 @@ export const auth = () =>
                     profileAPI.getProfile(userId)
                         .then(({photos: {small: avatar}}) => {
                             dispatch(setAuth(userId, login, email, avatar));
+                            return true;
                         });
                 }
-                debugger
                 dispatch(setFetching(false));
             });
-    }
+    };
+
 export const logIn = ({email, password, rememberMe, captcha}) =>
     (dispatch) => {
         dispatch(setFetching(true));
@@ -51,8 +53,16 @@ export const logIn = ({email, password, rememberMe, captcha}) =>
             .then(response => {
                 if (!response.resultCode){
                     dispatch(auth());
-                }else {alert('no')}
+                }
                 dispatch(setFetching(false));
             })
+            .catch(error => {
+                if(error.validationErrors) {
+                    throw new SubmissionError(error.validationErrors)
+                } else {
+                    // what you do about other communication errors is up to you
+                }
+            })
     };
+
 export default AuthReducer;

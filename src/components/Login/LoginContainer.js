@@ -3,51 +3,42 @@ import {reduxForm, Field} from 'redux-form'
 import {connect} from "react-redux";
 import {pageSetting} from "../../Redux/PageStateReducer";
 import {logIn} from "../../Redux/AuthReducer";
-
-
-
-
+import {CheckBox, Input} from "../common/FormsControls/FormsControls";
+import s from './login.module.css';
+import {email, minLength, required} from "../../utils/validators/validators";
+import {Redirect} from "react-router-dom";
 
 class LoginForm extends React.Component {
     render() {
-        const { handleSubmit, submitting, resetForm, submitLogin
-        } = this.props;
-
-        console.log(this.props);
-
+        const { handleSubmit, submitting, reset, submitLogin, pristine} = this.props;
         return (
             <form onSubmit={handleSubmit(submitLogin)}>
-                <Field placeholder={'email'} name="email" component="input"  />
-                <Field placeholder={'password'} name="password" component="input" />
-                <Field placeholder={'rememberMe'} name="rememberMe" component="input" type={'checkbox'}/>
-                <button type="submit" disabled={submitting}>Log In</button>
-                <button type="button" disabled={submitting} onClick={resetForm}>re</button>
+                <Field placeholder={'E-mail'} name="email"  component={Input} validate={[required, email]}  />
+                <Field placeholder={'Password'} name="password" component={Input} validate={[required, minLength(6)]} type={'password'}/>
+                <Field name="rememberMe" component={CheckBox} type={'checkbox'}/>
+                <div className={s.btns}>
+                    <button type="submit" disabled={pristine || submitting} className={s.btnLogin}>Log In</button>
+                    <button type="button" disabled={pristine || submitting} className={s.btnReset} onClick={reset}>Reset</button>
+                </div>
             </form>
         );
     }
 }
 
-// LoginForm.propTypes = {
-//     fields: PropTypes.object.isRequired,
-//     handleSubmit: PropTypes.func.isRequired,
-//     resetForm: PropTypes.func.isRequired,
-//     submitting: PropTypes.bool.isRequired
-// };
-
 const LoginReduxForm = reduxForm({
     form: 'login',
 })(LoginForm);
 
-const LoginContainer = (props) => {
-    props.pageSetting('Login', -1);
+const LoginContainer = ({pageSetting, logIn}) => {
+    pageSetting('Login', -1);
 
-    const submitLogin =(loginData) =>{
-        console.log(loginData)
-       props.logIn(loginData);
-    };
+    const submitLogin = loginData => {
+         logIn(loginData) && <Redirect to={'/profile'}/>
+    }
+
 
     return (
-        <div>
+        <div className={s.login}>
             <LoginReduxForm submitLogin={submitLogin}/>
         </div>
     );
