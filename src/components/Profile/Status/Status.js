@@ -9,7 +9,7 @@ const Status = ({profileStatus, updateProfileStatus}) => {
     }
     const editModeOf = () => {
         setStatusState({...statusState, editMode: false});
-        updateProfileStatus(statusState.profileStatus);
+        statusState.profileStatus !== profileStatus && updateProfileStatus(statusState.profileStatus);
     }
 
     const setStatus = (ev) =>{

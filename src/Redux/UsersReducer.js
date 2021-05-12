@@ -74,7 +74,7 @@ export const changeInputValue = (slide) => ({type: CHANGE_INPUT_VALUE, slide});
 export const setFollowProgress = (isProgress, id) => ({type: SET_FOLLOW_PROGRESS, isProgress, id});
 export const toggleOnlyFriends = (bool) => ({type: TOGGLE_ONLY_FRIENDS, bool});
 
-export const getUsers = (currentPage, pageSize, friends) =>
+export const requestUsers = (currentPage, pageSize, friends) =>
     (dispatch) => {
         dispatch(toggleOnlyFriends(friends));
         dispatch(setIsFetching(true));
@@ -89,7 +89,7 @@ export const getUsers = (currentPage, pageSize, friends) =>
 export const changePage = (page, pageSize, friends) =>
     (dispatch) => {
         dispatch(setCurrentPage(page));
-        dispatch(getUsers(page, pageSize, friends));
+        dispatch(requestUsers(page, pageSize, friends));
 
     };
 

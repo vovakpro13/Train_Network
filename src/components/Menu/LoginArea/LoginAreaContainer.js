@@ -1,23 +1,15 @@
 import {connect} from "react-redux";
 import React from "react";
-import {auth} from '../../../Redux/AuthReducer';
+import {logOut} from '../../../Redux/AuthReducer';
 import LoginArea from "./LoginArea";
 import NoLogin from "./NoLogin";
-import Preloader from "../../common/Preloader/Preloader";
 import {compose} from "redux";
+import {withRouter} from "react-router-dom";
 
-class LoginAreaContainer extends React.Component {
-    componentDidMount() {
-        this.props.auth()
-    }
-
-    render() {
-        return this.props.isFetching
-            ? <Preloader type={'login'}/>
-            : this.props.isLogin
-                ? <LoginArea {...this.props}/>
-                : <NoLogin/>;
-    }
+const LoginAreaContainer = props => {
+    return props.isLogin
+        ? <LoginArea {...props}/>
+        : <NoLogin/>;
 }
 
 const mapStateToProps = (state) => {
@@ -25,10 +17,10 @@ const mapStateToProps = (state) => {
         isLogin: state.authData.isLogin,
         login: state.authData.login,
         avatar: state.authData.avatar,
-        isFetching: state.authData.isFetching
     };
 };
 
 export default compose(
-    connect(mapStateToProps, {auth})
+    withRouter,
+    connect(mapStateToProps, {logOut})
 )(LoginAreaContainer);

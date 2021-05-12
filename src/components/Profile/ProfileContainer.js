@@ -1,32 +1,49 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {withRouter} from 'react-router-dom';
-import {getProfile, getProfileStatus, setIsFetching, setProfilaData,updateProfileStatus} from "../../Redux/ProfileReducer";
+import {Redirect, withRouter} from 'react-router-dom';
+import {
+    getProfile,
+    getProfileStatus,
+    setIsFetching,
+    setProfilaData,
+    updateProfileStatus
+} from "../../Redux/ProfileReducer";
 import {pageSetting} from "../../Redux/PageStateReducer";
 import {compose} from "redux";
+import Preloader from "../common/Preloader/Preloader";
 
-class ProfileContainer extends React.Component {
-    componentDidMount() {
+const ProfileContainer = props => {
+    const {
+        match: {params: {userId}},
+        pageSetting,
+        authUserId,
+        getProfile,
+        getProfileStatus,
+        profile,
+        isLogin,
+        profileStatus,
+        updateProfileStatus, isFetching
+    } = props;
 
-        let userId = this.props.match.params.userId;
-        this.props.pageSetting(<>Profile <small><sup>#{userId}</sup></small></>, -1);
-        if (!userId) {
-            userId = 16944;
-            this.props.pageSetting('My profile', -1);
-        }
-        this.props.getProfile(userId);
-        this.props.getProfileStatus(userId);
+    let id = userId;
+    //pageSetting(<>Profile <small><sup>#{id}</sup></small></>, -1);
+
+    if (!id) {
+        id = authUserId;
+        pageSetting('My profile', -1);
     }
+    useEffect(() => getProfile(id), []);
 
+    return isLogin || userId
+        ? isFetching
+            ? <Preloader/>
+            : <Profile
+                profile={profile}
+                profileStatus={profileStatus}
+                updateProfileStatus={updateProfileStatus}/>
+        : <Redirect to={'/login'}/>
 
-
-    render() {
-        return <Profile
-            profile={this.props.profile}
-            profileStatus={this.props.profileStatus}
-            updateProfileStatus={this.props.updateProfileStatus}/>
-    }
 }
 
 const mapStateToProps = (state) => {
@@ -34,12 +51,20 @@ const mapStateToProps = (state) => {
         profile: state.profileData.profile,
         profileStatus: state.profileData.profileStatus,
         isLogin: state.authData.isLogin,
-        authUserId: state.authData.userId
+        authUserId: state.authData.userId,
+        isFetching: state.profileData.isFetching
     }
 }
 
 export default compose(
-    connect(mapStateToProps, {pageSetting, setProfilaData, setIsFetching, getProfile, getProfileStatus,updateProfileStatus}),
+    connect(mapStateToProps, {
+        pageSetting,
+        setProfilaData,
+        setIsFetching,
+        getProfile,
+        getProfileStatus,
+        updateProfileStatus
+    }),
     withRouter
 )(ProfileContainer);
 

@@ -7,12 +7,13 @@ import {CheckBox, Input} from "../common/FormsControls/FormsControls";
 import s from './login.module.css';
 import {email, minLength, required} from "../../utils/validators/validators";
 import {Redirect} from "react-router-dom";
+import {compose} from "redux";
 
-class LoginForm extends React.Component {
+class LoginForm extends React.PureComponent{
     render() {
-        const { handleSubmit, submitting, reset, submitLogin, pristine} = this.props;
+        const { handleSubmit, submitting, reset, pristine,error} = this.props;
         return (
-            <form onSubmit={handleSubmit(submitLogin)}>
+            <form onSubmit={handleSubmit}>
                 <Field placeholder={'E-mail'} name="email"  component={Input} validate={[required, email]}  />
                 <Field placeholder={'Password'} name="password" component={Input} validate={[required, minLength(6)]} type={'password'}/>
                 <Field name="rememberMe" component={CheckBox} type={'checkbox'}/>
@@ -25,26 +26,27 @@ class LoginForm extends React.Component {
     }
 }
 
-const LoginReduxForm = reduxForm({
-    form: 'login',
-})(LoginForm);
+const LoginReduxForm = compose(
+    reduxForm({form: 'login'})
+)(LoginForm);
 
-const LoginContainer = ({pageSetting, logIn}) => {
+const LoginContainer = ({pageSetting, logIn, isLogin}) => {
     pageSetting('Login', -1);
 
     const submitLogin = loginData => {
-         logIn(loginData) && <Redirect to={'/profile'}/>
+         logIn(loginData);
     }
 
-
-    return (
-        <div className={s.login}>
-            <LoginReduxForm submitLogin={submitLogin}/>
+    return isLogin ? <Redirect to={'/profile'}/>
+        :<div className={s.login}>
+            <LoginReduxForm onSubmit={submitLogin}/>
         </div>
-    );
+
 };
 
 const mapStateToProps = (state) => {
-    return {}
+    return {
+        isLogin: state.authData.isLogin
+    }
 }
 export default connect(mapStateToProps, {pageSetting, logIn})(LoginContainer);

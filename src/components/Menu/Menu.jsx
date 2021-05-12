@@ -11,7 +11,7 @@ const Menu = (props) => {
                 <h4><Link to={'/'}>{props.projectName}</Link></h4>
             </div>
 
-            <div><LoginAreaContainer/></div>
+            <LoginAreaContainer/>
 
             <div className={s.links}>
                 {

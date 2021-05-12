@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import Users from "./Users.jsx";
-import {getUsers, resetSlider} from "../../Redux/UsersReducer";
+import {requestUsers, resetSlider} from "../../Redux/UsersReducer";
 import {pageSetting} from "../../Redux/PageStateReducer";
 import React from "react";
 import UsersWrapper from "./UsersWrapper";
@@ -29,6 +29,6 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-    connect(mapStateToProps,{pageSetting,getUsers,resetSlider})
+    connect(mapStateToProps,{pageSetting,getUsers: requestUsers,resetSlider})
 )(UsersAPIContainer);
 

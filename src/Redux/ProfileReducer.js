@@ -17,7 +17,7 @@ const initProfile = {
         case  SET_IS_FETCHING:
             return {...state, isFetching: action.isFetch};
         case  SET_PROFILE_STATUS:
-            return {...state, profileStatus: action.status};
+            return {...state, profileStatus: action.status || ''};
         default:
             return state;
     }
@@ -27,23 +27,28 @@ export const setProfilaData = (profile) => ({type:SET_PROFILE_DATA, profile });
 export const setProfileStatus = (status) => ({type:SET_PROFILE_STATUS, status });
 export const setIsFetching = (isFetch) => ({type: SET_IS_FETCHING, isFetch});
 
-export const getProfile = (userId) =>
-    (dispatch) =>{
-        dispatch(setIsFetching(true));
-        profileAPI.getProfile(userId).then(profile => {
-            dispatch(setProfilaData(profile));
-            dispatch(setIsFetching(false));
-        })
-    };
-
 export const getProfileStatus = (userId) =>
     (dispatch) => {
-        dispatch(setIsFetching(true));
-        profileAPI.getProfileStatus(userId).then(status => {
+         dispatch(setIsFetching(true));
+        return profileAPI.getProfileStatus(userId).then(status => {
             dispatch(setProfileStatus(status));
             dispatch(setIsFetching(false));
         })
     };
+
+export const getProfile = (userId) =>
+    (dispatch) =>{
+        dispatch(setIsFetching(true));
+       return profileAPI.getProfile(userId).then(profile => {
+           profileAPI.getProfileStatus(userId).then(status => {
+               dispatch(setProfileStatus(status));
+               dispatch(setProfilaData(profile));
+               dispatch(setIsFetching(false));
+           })
+        })
+    };
+
+
 
 export const updateProfileStatus = (status) =>
     (dispatch) => {
