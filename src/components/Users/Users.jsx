@@ -7,8 +7,7 @@ import Navigation from "./Navigation";
 
 const Users = (props) => {
     const {
-        totalUsers, pageSize, currentPage,
-        setPagesSlide, pages, isFetching, changeInputValue,
+         isFetching,
         followingInProgress, unfollow, follow, users
     } = props;
 

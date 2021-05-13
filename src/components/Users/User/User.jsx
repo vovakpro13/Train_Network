@@ -6,7 +6,6 @@ import unfollowImg from '../../../assets/svg/minus.svg';
 
 function User({user, follow, unfollow, followingInProgress}) {
     return (
-
         <div className={s.userDiv}>
             <div className={s.avatar}>
                 <div><img src={user.photos.small || avatar} alt="avatar"/></div>

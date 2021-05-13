@@ -1,7 +1,7 @@
 import {usersAPI} from "../services/api";
 
 const SET_USERS = 'SET_USERS';
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const SET_PAGE = 'SET_PAGE';
 const SET_IS_FETCHING = 'SET_IS_FETCHING';
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -14,7 +14,7 @@ const initState = {
     users: [],
     pageSize: 9,
     totalUsers: null,
-    currentPage: 1,
+    page: 1,
     pages: {
         currentSlide: 0,
         countButtonsInSlide: 10,
@@ -29,8 +29,8 @@ const UsersReducer = (state = initState, action) => {
     switch (action.type) {
         case SET_USERS:
             return {...state, users: [...action.users], totalUsers: action.totalUsers};
-        case SET_CURRENT_PAGE:
-            return {...state, currentPage: action.currentPage};
+        case SET_PAGE:
+            return {...state, page: action.page};
         case  SET_IS_FETCHING:
             return {...state, isFetching: action.isFetch};
         case  SET_PAGES_SLIDE:
@@ -65,7 +65,7 @@ const UsersReducer = (state = initState, action) => {
 
 
 export const setUsers = (users, totalUsers) => ({type: SET_USERS, users, totalUsers});
-export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage});
+export const setPage = (page) => ({type: SET_PAGE, page});
 export const setIsFetching = (isFetch) => ({type: SET_IS_FETCHING, isFetch});
 export const setPagesSlide = (slide) => ({type: SET_PAGES_SLIDE, slide});
 export const followSuccess = (userId) => ({type: FOLLOW, userId});
@@ -74,11 +74,11 @@ export const changeInputValue = (slide) => ({type: CHANGE_INPUT_VALUE, slide});
 export const setFollowProgress = (isProgress, id) => ({type: SET_FOLLOW_PROGRESS, isProgress, id});
 export const toggleOnlyFriends = (bool) => ({type: TOGGLE_ONLY_FRIENDS, bool});
 
-export const requestUsers = (currentPage, pageSize, friends) =>
+export const requestUsers = (page, pageSize, friends) =>
     (dispatch) => {
         dispatch(toggleOnlyFriends(friends));
         dispatch(setIsFetching(true));
-        usersAPI.getUsers(currentPage, pageSize, friends).then(users => {
+        usersAPI.getUsers(page, pageSize, friends).then(users => {
             debugger
             dispatch(setUsers(users.items, users.totalCount));
             dispatch(setIsFetching(false));
@@ -88,7 +88,7 @@ export const requestUsers = (currentPage, pageSize, friends) =>
 
 export const changePage = (page, pageSize, friends) =>
     (dispatch) => {
-        dispatch(setCurrentPage(page));
+        dispatch(setPage(page));
         dispatch(requestUsers(page, pageSize, friends));
 
     };
@@ -114,7 +114,7 @@ export const unfollow = (id) =>
 export const resetSlider = () =>
     (dispatch) => {
         dispatch(setPagesSlide(0));
-        dispatch(setCurrentPage(1));
+        dispatch(setPage(1));
         dispatch(changeInputValue(1));
     };
 

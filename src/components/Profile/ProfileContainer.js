@@ -16,23 +16,19 @@ import Preloader from "../common/Preloader/Preloader";
 const ProfileContainer = props => {
     const {
         match: {params: {userId}},
-        pageSetting,
-        authUserId,
-        getProfile,
-        getProfileStatus,
-        profile,
-        isLogin,
-        profileStatus,
+        pageSetting, authUserId, getProfile,
+        profile, isLogin, profileStatus,
         updateProfileStatus, isFetching
     } = props;
 
     let id = userId;
-    //pageSetting(<>Profile <small><sup>#{id}</sup></small></>, -1);
-
     if (!id) {
         id = authUserId;
         pageSetting('My profile', -1);
+    } else {
+        pageSetting(`Profile ${userId}`, -1);
     }
+
     useEffect(() => getProfile(id), []);
 
     return isLogin || userId
@@ -59,7 +55,6 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps, {
         pageSetting,
-        setProfilaData,
         setIsFetching,
         getProfile,
         getProfileStatus,

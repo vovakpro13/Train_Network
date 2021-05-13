@@ -3,29 +3,23 @@ import left from '../../assets/svg/left-arrow.svg';
 import right from '../../assets/svg/right-arrow.svg';
 import React from "react";
 
-const Users = (props) => {
+const Navigation = (props) => {
     const {
-        totalUsers, pageSize, currentPage,
+        totalUsers, pageSize, page,
         setPagesSlide, pages, changeInputValue,
     } = props;
 
     const slide = React.createRef();
 
-
     const pagesCount = Math.ceil(totalUsers / pageSize);
     const totalSlides = Math.ceil(pagesCount / pages.countButtonsInSlide);
 
-
-    //скільки кнопок в слайді
     const start = (pages.currentSlide * pages.countButtonsInSlide) + 1;
     const end = pages.countButtonsInSlide + start;
 
     const pagesButtonsArray = [];
     for (let i = start; i < end; i++) {
-        if (i <= pagesCount && i >= 1) {
-            pagesButtonsArray.push(i)
-        }
-
+        i <= pagesCount && i >= 1 && pagesButtonsArray.push(i);
     }
 
     const onPressEnterSetPage = (e) => {
@@ -46,7 +40,7 @@ const Users = (props) => {
         setPagesSlide(pages.currentSlide + 1);
         changeInputValue(pages.currentSlide + 2);
     }
-
+debugger
     return (
         <div className={s.pagesDiv}>
             <div className={s.pages}>
@@ -61,7 +55,7 @@ const Users = (props) => {
                     pagesButtonsArray.map(p =>
                         <button key={p}
                                 onClick={() => props.changePage(p)}
-                                className={`${currentPage === p ? s.selected : s.simplePageBtn} ${s.pageButton}`}>
+                                className={`${page === p ? s.selected : s.simplePageBtn} ${s.pageButton}`}>
                             {p}
                         </button>
                     )
@@ -94,4 +88,4 @@ const Users = (props) => {
     )
 }
 
-export default Users;
+export default Navigation;

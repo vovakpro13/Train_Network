@@ -3,6 +3,14 @@ import Users from "./Users";
 import {connect} from "react-redux";
 import {changeInputValue, follow, setPagesSlide, unfollow, changePage} from "../../Redux/UsersReducer";
 import {compose} from "redux";
+import {
+    followingInProgressSelector,
+    isFetchingSelector, onlyFriendsSelector,
+    pageSelector,
+    pageSizeSelector, pagesSelector,
+    totalUsersSelector,
+    usersSelector
+} from "../../selectors/usersDataSelectors";
 
 const UsersWrapper = (props) => {
     const changePage = (p) => props.changePage(p, props.pageSize, props.onlyFriends);
@@ -11,7 +19,7 @@ const UsersWrapper = (props) => {
             isFetching={props.isFetching}
             totalUsers={props.totalUsers}
             pageSize={props.pageSize}
-            currentPage={props.currentPage}
+            page={props.page}
 
             setPagesSlide={props.setPagesSlide}
             pages={props.pages}
@@ -27,16 +35,15 @@ const UsersWrapper = (props) => {
     </>;
 }
 const mapStateToProps = (state) => {
-
     return {
-        users: state.usersData.users,
-        pageSize: state.usersData.pageSize,
-        totalUsers: state.usersData.totalUsers,
-        currentPage: state.usersData.currentPage,
-        isFetching: state.usersData.isFetching,
-        pages: state.usersData.pages,
-        followingInProgress: state.usersData.followingInProgress,
-        onlyFriends: state.usersData.onlyFriends
+        users: usersSelector(state),
+        pageSize: pageSizeSelector(state),
+        totalUsers: totalUsersSelector(state),
+        page: pageSelector(state),
+        isFetching: isFetchingSelector(state),
+        pages: pagesSelector(state),
+        followingInProgress: followingInProgressSelector(state),
+        onlyFriends: onlyFriendsSelector(state)
     }
 }
 

@@ -2,29 +2,22 @@ import {connect} from "react-redux";
 import Users from "./Users.jsx";
 import {requestUsers, resetSlider} from "../../Redux/UsersReducer";
 import {pageSetting} from "../../Redux/PageStateReducer";
-import React from "react";
+import React, {useEffect} from "react";
 import UsersWrapper from "./UsersWrapper";
 import {compose} from "redux";
+import {pageSelector, pageSizeSelector} from "../../selectors/usersDataSelectors";
 
-class UsersAPIContainer extends React.Component{
-    componentDidMount() {
-        this.props.pageSetting('Users', 1);
-        this.props.getUsers(this.props.currentPage, this.props.pageSize);
-    }
-
-    componentWillMount() {
-        this.props.resetSlider();
-    }
-
-    render() {
-        return <UsersWrapper/>
-    }
+const UsersAPIContainer = ({pageSetting, getUsers, page, pageSize, resetSlider}) => {
+    pageSetting('Users', 1);
+    useEffect(() => getUsers(page, pageSize), [])
+    resetSlider();
+    return <UsersWrapper/>
 }
 
 const mapStateToProps = (state) => {
     return {
-        pageSize: state.usersData.pageSize,
-        currentPage: state.usersData.currentPage
+        pageSize: pageSizeSelector(state),
+        page: pageSelector(state)
     }
 }
 
