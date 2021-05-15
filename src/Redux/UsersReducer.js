@@ -89,7 +89,8 @@ export const changePage = (page, pageSize, friends) =>
         dispatch(requestUsers(page, pageSize, friends));
     };
 
-export const followFlow = async (id, dispatch, apiRequest, actionCreator) => {
+export const followFlow =  (id, apiRequest, actionCreator) =>
+    async (dispatch) => {
         dispatch(setFollowProgress(true, id));
         const {resultCode} = await apiRequest(id);
         resultCode === 0 && dispatch(actionCreator(id));
