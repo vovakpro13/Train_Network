@@ -26,6 +26,7 @@ const PageStateReducer = (state = initialPage, action) => {
         case UPDATE_PAGE_STATE:
             return {...state};
         case INITIALIZED_SUCCESS:
+            console.log('init')
             return {...state, initialized: true}
         default:
             return state;
@@ -42,9 +43,11 @@ export const pageSetting = (title, activePage) =>
         dispatch(setTitle(title));
         dispatch(setActivePage(activePage));
     };
+
 export const initializeApp = () =>
-    (dispatch) => {
-        dispatch(auth()).then(() => {dispatch(initializedSuccess()); console.log('init true')})
+    async (dispatch) => {
+        await dispatch(auth());
+        dispatch(initializedSuccess());
     };
 
 export default PageStateReducer;

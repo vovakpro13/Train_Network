@@ -10,8 +10,8 @@ const initProfile = {
     isFetching: false
 };
 
- const ProfileReducer = (state = initProfile, action) =>{
-    switch (action.type){
+const ProfileReducer = (state = initProfile, action) => {
+    switch (action.type) {
         case SET_PROFILE_DATA:
             return {...state, profile: {...action.profile}};
         case  SET_IS_FETCHING:
@@ -23,41 +23,32 @@ const initProfile = {
     }
 };
 
-export const setProfilaData = (profile) => ({type:SET_PROFILE_DATA, profile });
-export const setProfileStatus = (status) => ({type:SET_PROFILE_STATUS, status });
+export const setProfilaData = (profile) => ({type: SET_PROFILE_DATA, profile});
+export const setProfileStatus = (status) => ({type: SET_PROFILE_STATUS, status});
 export const setIsFetching = (isFetch) => ({type: SET_IS_FETCHING, isFetch});
 
 export const getProfileStatus = (userId) =>
-    (dispatch) => {
-         dispatch(setIsFetching(true));
-        return profileAPI.getProfileStatus(userId).then(status => {
-            dispatch(setProfileStatus(status));
-            dispatch(setIsFetching(false));
-        })
-    };
+    async (dispatch) => {
+        dispatch(setIsFetching(true));
+        dispatch(setProfileStatus(await profileAPI.getProfileStatus(userId)));
+        dispatch(setIsFetching(false));
+    }
 
 export const getProfile = (userId) =>
-    (dispatch) =>{
+    async (dispatch) => {
         dispatch(setIsFetching(true));
-       return profileAPI.getProfile(userId).then(profile => {
-           profileAPI.getProfileStatus(userId).then(status => {
-               dispatch(setProfileStatus(status));
-               dispatch(setProfilaData(profile));
-               dispatch(setIsFetching(false));
-           })
-        })
+        dispatch(setProfileStatus(await profileAPI.getProfileStatus(userId)));
+        dispatch(setProfilaData(await profileAPI.getProfile(userId)));
+        dispatch(setIsFetching(false));
     };
-
 
 
 export const updateProfileStatus = (status) =>
-    (dispatch) => {
+    async (dispatch) => {
         dispatch(setIsFetching(true));
-        profileAPI.updateProfileStatus(status).then(result =>{
-            if (!result.resultCode){
-                dispatch(setProfileStatus(status));
-            }
-            dispatch(setIsFetching(false));
-        });
+        const {resultCode} = await profileAPI.updateProfileStatus(status)
+        resultCode === 0 && dispatch(setProfileStatus(status));
+        dispatch(setIsFetching(false));
+
     }
 export default ProfileReducer;

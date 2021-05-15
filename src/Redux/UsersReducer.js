@@ -74,41 +74,36 @@ export const changeInputValue = (slide) => ({type: CHANGE_INPUT_VALUE, slide});
 export const setFollowProgress = (isProgress, id) => ({type: SET_FOLLOW_PROGRESS, isProgress, id});
 export const toggleOnlyFriends = (bool) => ({type: TOGGLE_ONLY_FRIENDS, bool});
 
-export const requestUsers = (page, pageSize, friends) =>
-    (dispatch) => {
-        dispatch(toggleOnlyFriends(friends));
+export const requestUsers = (page, pageSize, isFriends) =>
+    async (dispatch) => {
+        dispatch(toggleOnlyFriends(isFriends));
         dispatch(setIsFetching(true));
-        usersAPI.getUsers(page, pageSize, friends).then(users => {
-            debugger
-            dispatch(setUsers(users.items, users.totalCount));
-            dispatch(setIsFetching(false));
-        });
+        const {items: users, totalCount} = await usersAPI.getUsers(page, pageSize, isFriends);
+        dispatch(setUsers(users, totalCount));
+        dispatch(setIsFetching(false));
     };
-
 
 export const changePage = (page, pageSize, friends) =>
     (dispatch) => {
         dispatch(setPage(page));
         dispatch(requestUsers(page, pageSize, friends));
+    };
 
+export const followFlow = async (id, dispatch, apiRequest, actionCreator) => {
+        dispatch(setFollowProgress(true, id));
+        const {resultCode} = await apiRequest(id);
+        resultCode === 0 && dispatch(actionCreator(id));
+        dispatch(setFollowProgress(false, id));
     };
 
 export const follow = (id) =>
-    (dispatch) => {
-        dispatch(setFollowProgress(true, id));
-        usersAPI.followPost(id).then(answer => {
-            dispatch(followSuccess(id));
-            dispatch(setFollowProgress(false, id));
-        });
+     (dispatch) => {
+         dispatch(followFlow(id, usersAPI.followPost, followSuccess));
     };
 
 export const unfollow = (id) =>
-    (dispatch) => {
-        dispatch(setFollowProgress(true, id));
-        usersAPI.unfollowDelete(id).then(answer => {
-            dispatch(unfollowSuccess(id));
-            dispatch(setFollowProgress(false, id));
-        });
+    async (dispatch) => {
+        dispatch(followFlow(id, usersAPI.unfollowDelete, unfollowSuccess));
     };
 
 export const resetSlider = () =>
